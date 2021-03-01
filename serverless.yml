@@ -1,0 +1,43 @@
+service: chankinlong-com
+
+useDotenv: false
+
+provider:
+  name: aws
+  region: us-east-1
+  runtime: nodejs12.x
+  stage: production
+  memorySize: 512
+  timeout: 3
+  versionFunctions: false
+  apiGateway:
+    shouldStartNameWithService: true
+  logs:
+    httpApi: true
+
+functions:
+  app:
+    handler: index.handler
+    events:
+      - http: GET /
+
+plugins:
+  - serverless-offline
+  - serverless-api-gateway-throttling
+  - serverless-domain-manager
+
+custom:
+  serverless-offline:
+    httpPort: 3000
+    host: 0.0.0.0
+    noPrependStageInUrl: true
+
+  apiGatewayThrottling:
+    maxRequestsPerSecond: 10
+    maxConcurrentRequests: 10
+
+  customDomain:
+    domainName: 'chankinlong.com'
+    basePath: ''
+    stage: production
+    createRoute53Record: false
