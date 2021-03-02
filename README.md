@@ -1,7 +1,10 @@
 # About
 This repo is the website of https://chankinlong.com
 
-This project is built with (serverless)[https://www.serverless.com] framework
+## Stack
+* [serverless framework](https://www.serverless.com)
+* AWS, API Gateway, Lambda, SES
+* Docker for development (every command is run inside Docker)
 
 ## Development
 
@@ -11,13 +14,11 @@ serverless offline start
 
 ## Ops & Deployment
 ```
-cp .env.example .env
+cp .env.example .env.deploy
 # fill in your AWS credentials
 
 serverless deploy
 ```
 
 ## Next
-1. Link to my profile websites (linkedin & github)
-1. Mobile first
-1. Form for inquiry
+1. Handle form for inquiry

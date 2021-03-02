@@ -9,7 +9,8 @@ services:
     volumes:
       - ./:/opt/app
       - /opt/app/node_modules/
+      - /opt/app/.serverless/
     ports:
       - 3000:3000
     env_file:
-      .env
+      .env.deploy

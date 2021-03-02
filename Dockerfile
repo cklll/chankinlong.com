@@ -9,4 +9,5 @@ COPY yarn.lock .
 
 RUN yarn install --frozen-lockfile
 
-COPY . .
+# Don't need to copy, I am using docker-compose to mount volume
+# COPY . .

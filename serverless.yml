@@ -1,6 +1,6 @@
-service: chankinlong-com
+frameworkVersion: ^2.28.0
 
-useDotenv: false
+service: chankinlong-com
 
 provider:
   name: aws
