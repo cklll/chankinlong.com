@@ -23,4 +23,4 @@ serverless deploy --env production
 ```
 
 ## Next
-1. API Gateway Log (currently only Lambda log)
+1. [Keep Lambda Warm](https://www.serverless.com/blog/keep-your-lambdas-warm)
