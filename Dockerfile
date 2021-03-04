@@ -2,7 +2,7 @@ FROM node:12.21-alpine3.10
 
 WORKDIR /opt/app
 
-RUN npm install -g serverless serverless-api-gateway-throttling serverless-offline serverless-domain-manager
+RUN npm install -g serverless serverless-api-gateway-throttling serverless-offline serverless-domain-manager serverless-dotenv-plugin
 
 COPY package.json .
 COPY yarn.lock .

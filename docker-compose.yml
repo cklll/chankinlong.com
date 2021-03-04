@@ -9,8 +9,37 @@ services:
     volumes:
       - ./:/opt/app
       - /opt/app/node_modules/
-      - /opt/app/.serverless/
     ports:
       - 3000:3000
+    environment:
+      SMTP_HOST: mailhog
+      SMTP_PORT: 1025
+      SMTP_SECURE: 0
+      SMTP_USER: mailhog_user
+      SMTP_PASS: mailhog_pass
+      SMTP_SENDER_EMAIL: test_sender@email.com
+      CONTACT_RECEIVER_EMAILS: test_receiver1@example.com,test_receiver2@example.com
+    links:
+      - mailhog
+
+  deploy:
+    build: .
+    working_dir: /opt/app
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./:/opt/app
+      - /opt/app/node_modules/
     env_file:
       .env.deploy
+
+  # for dev only, we use 3rd party SMTP server
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      # - 1025:1025 # smtp server, no need to map port to host
+      - 8025:8025 # web ui
+    environment:
+      MH_AUTH_FILE: /opt/mailhog_auth_file.txt
+    volumes:
+      - ./mailhog_auth_file.txt:/opt/mailhog_auth_file.txt

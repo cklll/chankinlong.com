@@ -3,22 +3,24 @@ This repo is the website of https://chankinlong.com
 
 ## Stack
 * [serverless framework](https://www.serverless.com)
-* AWS, API Gateway, Lambda, SES
+* AWS, API Gateway, Lambda, Mailgun (or any SMTP server)
 * Docker for development (every command is run inside Docker)
 
 ## Development
-
 ```
+docker-compose exec app /bin/sh
 serverless offline start
 ```
 
 ## Ops & Deployment
-```
-cp .env.example .env.deploy
-# fill in your AWS credentials
+```sh
+cp .env.example.deploy .env.deploy
+cp .env.example.app .env.production
+# fill the information
 
-serverless deploy
+docker-compose exec deploy /bin/sh
+serverless deploy --env production
 ```
 
 ## Next
-1. Handle form for inquiry
+1. API Gateway Log (currently only Lambda log)
