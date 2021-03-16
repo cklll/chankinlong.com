@@ -37,20 +37,38 @@ ${details}
   };
 };
 
-app.post('/contact', async function (req, res) {
-  const { name, email, details, thisisobviouslyahoneypot } = req.body;
+function validateContactPayload(body) {
+  // very loose restriction - only require at least 1 key-value
+  const keys = Object.keys(body);
+  if (keys.length < 1)  {
+    return false;
+  }
+  for (let key of keys) {
+    if (body[key]) {
+      return true;
+    }
+  }
+  return false;
+}
 
+app.post('/contact', async function (req, res) {
+  const { name, email, details } = req.body;
+  const filterBody = { name, email, details };
   // log to CloudWatch to make sure the data is not lost if I broke the mail config
-  console.info('Received a form submission: ' + JSON.stringify({
-    name, email, details, thisisobviouslyahoneypot
-  }));
+  console.info('Received a form submission: ' + JSON.stringify(filterBody));
+
+  if (!validateContactPayload(filterBody)) {
+    res.status(422);
+    res.send({ message: 'Missing required fields.' });
+    return;
+  }
 
   try {
     await mailTransporter.sendMail({
       from: smtpSenderEmail,
       to: contactReceiverEmails,
       subject: '[chankinlong.com] You received a new message',
-      ...generateEmailBody({ name, email, details }),
+      ...generateEmailBody(filterBody),
     });
 
     res.send({ message: 'OK' });
